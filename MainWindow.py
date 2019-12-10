@@ -19,7 +19,13 @@ class MainWindow(QWidget, Ui_Form):
     def on_click_create(self):
         current_size = self.le_vertex_count.text()
         print(current_size)
-        self.openGLWidget.set_size(int(current_size))
+
+        try:
+            size = int(current_size)
+            if 1 < size < 15:
+                self.openGLWidget.set_size(size)
+        except Exception:
+            pass
 
     def on_click_left(self):
         self.openGLWidget.rotate(0, -5)
