@@ -17,6 +17,7 @@ class MainWindow(QWidget, Ui_Form):
         self.btn_down.clicked.connect(self.on_click_down)
         self.ch_box_fog_enable.toggled.connect(lambda: self.on_click_enable_fog(self.ch_box_fog_enable))
 
+
     def on_click_create(self):
         current_size = self.le_vertex_count.text()
         print(current_size)

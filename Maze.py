@@ -3,6 +3,8 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 # генерирует лабиринт размером n и возвращает массив
+
+
 def create_binary(n):
     arr = [[0] * (n**3) for i in range(0, n**3)]
 
@@ -13,7 +15,7 @@ def create_binary(n):
                 res = choice([1, 2, 3])
 
                 # 1 - up
-                # 2 - right
+                # 2 - left
                 # 3 - forward
 
                 if res == 1:
@@ -25,9 +27,9 @@ def create_binary(n):
                         res = choice([2, 3])
 
                         if res == 2:
-                            if j != n-1:
-                                # right
-                                arr[vertex][vertex + 1] = 1
+                            if j != 0:
+                                # left
+                                arr[vertex][vertex - 1] = 1
                             elif g != n - 1:
                                 # forward
                                 next_vertex = j + i * n + (g + 1) * n ** 2
@@ -38,14 +40,14 @@ def create_binary(n):
                                     # forward
                                     next_vertex = j + i * n + (g + 1) * n ** 2
                                     arr[vertex][next_vertex] = 1
-                            elif j != n-1:
-                                # right
-                                arr[vertex][vertex + 1] = 1
+                            elif j != 0:
+                                # left
+                                arr[vertex][vertex - 1] = 1
 
                 elif res == 2:
-                    if j != n - 1:
-                        # right
-                        arr[vertex][vertex + 1] = 1
+                    if j != 0:
+                        # left
+                        arr[vertex][vertex - 1] = 1
                     else:
                         res = choice([1, 3])
 
@@ -82,13 +84,13 @@ def create_binary(n):
                                 # up
                                 next_vertex = j + (i - 1) * n + g * n ** 2
                                 arr[vertex][next_vertex] = 1
-                            elif j != n-1:
-                                # right
-                                arr[vertex][vertex + 1] = 1
+                            elif j != 0:
+                                # left
+                                arr[vertex][vertex - 1] = 1
                         elif res == 2:
-                            if j != n-1:
-                                # right
-                                arr[vertex][vertex + 1] = 1
+                            if j != 0:
+                                # left
+                                arr[vertex][vertex - 1] = 1
                             elif i != 0:
                                 # up
                                 next_vertex = j + (i - 1) * n + g * n ** 2
