@@ -24,15 +24,6 @@ class OpenGLWidget(QOpenGLWidget):
         print("initializeGL")
         glEnable(GL_POINT_SMOOTH)
 
-        glEnable(GL_FOG)
-        glFogi(GL_FOG_MODE, GL_LINEAR)
-        # glFogfv(GL_FOG_COLOR, (0.1, 0.1, 0.1, 1))
-        glFogfv(GL_FOG_COLOR, (0, 0, 0, 1))
-        glHint(GL_FOG_HINT, GL_DONT_CARE)
-        glFogf(GL_FOG_START, self.fog_start)
-        glFogf(GL_FOG_END, self.fog_end)
-
-
     def resizeGL(self, p_int, p_int_1):
         print("resizeGL")
         glMatrixMode(GL_PROJECTION)
@@ -72,6 +63,20 @@ class OpenGLWidget(QOpenGLWidget):
         self.size = size
         self.maze = generate_maze(self.size)
         self.update()
+
+    def set_fog(self, mode):
+        self.makeCurrent()
+        if mode == 1:
+            glEnable(GL_FOG)
+            glFogi(GL_FOG_MODE, GL_LINEAR)
+            glFogfv(GL_FOG_COLOR, (0.05, 0.05, 0.05, 1))
+            glHint(GL_FOG_HINT, GL_DONT_CARE)
+            glFogf(GL_FOG_START, self.fog_start)
+            glFogf(GL_FOG_END, self.fog_end)
+        else:
+            glDisable(GL_FOG)
+        self.update()
+
 
     # draw --------------------------------------------
     def axis(self):

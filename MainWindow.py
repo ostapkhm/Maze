@@ -15,6 +15,7 @@ class MainWindow(QWidget, Ui_Form):
         self.btn_right.clicked.connect(self.on_click_right)
         self.btn_up.clicked.connect(self.on_click_up)
         self.btn_down.clicked.connect(self.on_click_down)
+        self.ch_box_fog_enable.toggled.connect(lambda: self.on_click_enable_fog(self.ch_box_fog_enable))
 
     def on_click_create(self):
         current_size = self.le_vertex_count.text()
@@ -48,15 +49,25 @@ class MainWindow(QWidget, Ui_Form):
             self.openGLWidget.zoom(1, False)
 
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_F1:
+        if event.key() == QtCore.Qt.Key_S:
             self.openGLWidget.rotate(-5, 0)
-        if event.key() == QtCore.Qt.Key_F2:
+        if event.key() == QtCore.Qt.Key_W:
             self.openGLWidget.rotate(5, 0)
-        if event.key() == QtCore.Qt.Key_F3:
+        if event.key() == QtCore.Qt.Key_D:
             self.openGLWidget.rotate(0, 5)
-        if event.key() == QtCore.Qt.Key_F4:
+        if event.key() == QtCore.Qt.Key_A:
             self.openGLWidget.rotate(0, -5)
-        if event.key() == QtCore.Qt.Key_F5:
+        if event.key() == QtCore.Qt.Key_R:
             current_size = self.le_vertex_count.text()
             print(current_size)
             self.openGLWidget.set_size(int(current_size))
+
+    def on_click_enable_fog(self, b):
+        if b.isChecked():
+            print('enable')
+            self.openGLWidget.set_fog(1)
+        else:
+            print('disable')
+            self.openGLWidget.set_fog(0)
+
+
