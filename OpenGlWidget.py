@@ -18,7 +18,7 @@ class OpenGLWidget(QOpenGLWidget):
         self.maze = generate_maze(self.size)
 
         self.fog_start = 5
-        self.fog_end = 20
+        self.fog_end = 20  
 
     def initializeGL(self):
         print("initializeGL")

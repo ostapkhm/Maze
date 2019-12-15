@@ -5,6 +5,133 @@ from OpenGL.GLU import *
 # генерирует лабиринт размером n и возвращает массив
 
 
+def recursive_backtracking(size):
+    def possible_choice(z, y, x, size):
+        arr_choice = [1, 2, 3, 4, 5, 6]
+
+        # directions
+        # 1 - up
+        # 2 - down
+        # 3 - left
+        # 4 - right
+        # 5 - forward
+        # 6 - back
+
+        print(z, y, x)
+        if x - 1 >= 0:
+            if arr[z][y][x - 1] > 0:
+                arr_choice.remove(3)
+        else:
+            arr_choice.remove(3)
+
+        if x + 1 < size:
+            if arr[z][y][x + 1] > 0:
+                arr_choice.remove(4)
+        else:
+            arr_choice.remove(4)
+
+        if y - 1 >= 0:
+            if arr[z][y - 1][x] > 0:
+                arr_choice.remove(1)
+        else:
+            arr_choice.remove(1)
+
+        if y + 1 < size:
+            if arr[z][y + 1][x] > 0:
+                arr_choice.remove(2)
+        else:
+            arr_choice.remove(2)
+
+        if z - 1 >= 0:
+            if arr[z - 1][y][x] > 0:
+                arr_choice.remove(6)
+        else:
+            arr_choice.remove(6)
+
+        if z + 1 < size:
+            if arr[z + 1][y][x] > 0:
+                arr_choice.remove(5)
+        else:
+            arr_choice.remove(5)
+
+        if not arr_choice:
+            return -1
+
+        return choice(arr_choice)
+
+    def walk(z, y, x):
+        # directions
+        # 1 - up
+        # 2 - down
+        # 3 - left
+        # 4 - right
+        # 5 - forward
+        # 6 - back
+
+        direction = possible_choice(z, y, x, size)
+        vertex = x + y*size + z*size**2
+        if direction != -1:
+            if direction == 1:
+                next_vertex = x + (y - 1)*size + z*size**2
+                res[vertex][next_vertex] = 1
+                arr[z][y - 1][x] = 11
+                walk(z, y - 1, x)
+
+            if direction == 2:
+                next_vertex = x + (y + 1) * size + z * size ** 2
+                res[vertex][next_vertex] = 1
+                arr[z][y+1][x] = 12
+                walk(z, y + 1, x)
+
+            if direction == 3:
+                next_vertex = vertex - 1
+                res[vertex][next_vertex] = 1
+                arr[z][y][x-1] = 13
+                walk(z, y, x - 1)
+
+            if direction == 4:
+                next_vertex = vertex + 1
+                res[vertex][next_vertex] = 1
+                arr[z][y][x+1] = 14
+                walk(z, y, x + 1)
+
+            if direction == 5:
+                next_vertex = x + y * size + (z + 1) * size ** 2
+                res[vertex][next_vertex] = 1
+                arr[z+1][y][x] = 15
+                walk(z+1, y, x)
+
+            if direction == 6:
+                next_vertex = x + y * size + (z - 1) * size ** 2
+                res[vertex][next_vertex] = 1
+                arr[z-1][y][x] = 16
+                walk(z-1, y, x)
+
+        else:
+            if arr[z][y][x] == 11:
+                walk(z, y+1, x)
+            if arr[z][y][x] == 12:
+                walk(z, y-1, x)
+            if arr[z][y][x] == 13:
+                walk(z, y, x+1)
+            if arr[z][y][x] == 14:
+                walk(z, y, x-1)
+            if arr[z][y][x] == 15:
+                walk(z-1, y, x)
+            if arr[z][y][x] == 16:
+                walk(z+1, y, x)
+
+    arr = [[[0 for i in range(size)] for j in range(size)] for k in range(size)]
+    res = [[0] * (size**3) for i in range(0, size**3)]
+    x_start = randint(0, size-1)
+    y_start = randint(0, size-1)
+    z_start = randint(0, size-1)
+    arr[z_start][y_start][x_start] = 10
+    walk(z_start, y_start, x_start)
+
+    return res
+
+
 def create_binary(n):
     arr = [[0] * (n**3) for i in range(0, n**3)]
 
@@ -157,4 +284,4 @@ class Maze:
 
 
 def generate_maze(n) -> Maze:
-    return Maze(create_binary(n), n)
+    return Maze(recursive_backtracking(n), n)
