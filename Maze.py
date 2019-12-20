@@ -1,8 +1,12 @@
 from random import randint, choice
 from OpenGL.GL import *
 from OpenGL.GLU import *
+import sys
 
 # генерирует лабиринт размером n и возвращает массив
+
+x = 6000
+sys.setrecursionlimit(x)
 
 
 def recursive_backtracking(size):
@@ -17,7 +21,7 @@ def recursive_backtracking(size):
         # 5 - forward
         # 6 - back
 
-        print(z, y, x)
+        # print(z, y, x)
         if x - 1 >= 0:
             if arr[z][y][x - 1] > 0:
                 arr_choice.remove(3)
