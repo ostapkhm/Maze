@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QOpenGLWidget
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from math import pi, tan
 
 from Maze import generate_maze
 
@@ -23,6 +24,7 @@ class OpenGLWidget(QOpenGLWidget):
     def initializeGL(self):
         print("initializeGL")
         glEnable(GL_POINT_SMOOTH)
+        glEnable(GL_DEPTH_TEST)
 
     def resizeGL(self, p_int, p_int_1):
         print("resizeGL")
@@ -56,12 +58,26 @@ class OpenGLWidget(QOpenGLWidget):
             self.distance -= distance
         else:
             self.distance += distance
+
+        self.fog_start = self.distance - (self.size - 1)
+        self.fog_end = self.distance + 1.5*(self.size - 1)
+
+        self.makeCurrent()
+        glFogf(GL_FOG_START, self.fog_start)
+        glFogf(GL_FOG_END, self.fog_end)
         self.update()
 
     def set_size(self, size):
         print('set_size')
+        self.makeCurrent()
         self.size = size
         self.maze = generate_maze(self.size)
+        # self.fog_start = (size-1)/tan(pi/8)
+        # self.fog_end = self.fog_start + 2 * (size-1)
+        self.fog_start = self.distance - (self.size - 1)
+        self.fog_end = self.distance + 1.5 * (self.size - 1)
+        glFogf(GL_FOG_START, self.fog_start)
+        glFogf(GL_FOG_END, self.fog_end)
         self.update()
 
     def set_fog(self, mode):
@@ -69,7 +85,7 @@ class OpenGLWidget(QOpenGLWidget):
         if mode == 1:
             glEnable(GL_FOG)
             glFogi(GL_FOG_MODE, GL_LINEAR)
-            glFogfv(GL_FOG_COLOR, (0.05, 0.05, 0.05, 1))
+            glFogfv(GL_FOG_COLOR, (0.1, 0.1, 0.1, 1))
             glHint(GL_FOG_HINT, GL_DONT_CARE)
             glFogf(GL_FOG_START, self.fog_start)
             glFogf(GL_FOG_END, self.fog_end)

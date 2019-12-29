@@ -10,9 +10,10 @@ sys.setrecursionlimit(x)
 
 
 def recursive_backtracking(size):
-    def possible_choice(z, y, x, size):
-        arr_choice = [1, 2, 3, 4, 5, 6]
+    arr_choice = []
 
+    def possible_choice(z, y, x, size):
+        arr_choice.clear()
         # directions
         # 1 - up
         # 2 - down
@@ -21,42 +22,23 @@ def recursive_backtracking(size):
         # 5 - forward
         # 6 - back
 
-        # print(z, y, x)
-        if x - 1 >= 0:
-            if arr[z][y][x - 1] > 0:
-                arr_choice.remove(3)
-        else:
-            arr_choice.remove(3)
+        if x > 0 and arr[z][y][x - 1] == 0:
+            arr_choice.append(3)
 
-        if x + 1 < size:
-            if arr[z][y][x + 1] > 0:
-                arr_choice.remove(4)
-        else:
-            arr_choice.remove(4)
+        if x < size - 1 and arr[z][y][x + 1] == 0:
+            arr_choice.append(4)
 
-        if y - 1 >= 0:
-            if arr[z][y - 1][x] > 0:
-                arr_choice.remove(1)
-        else:
-            arr_choice.remove(1)
+        if y > 0 and arr[z][y - 1][x] == 0:
+            arr_choice.append(1)
 
-        if y + 1 < size:
-            if arr[z][y + 1][x] > 0:
-                arr_choice.remove(2)
-        else:
-            arr_choice.remove(2)
+        if y < size - 1 and arr[z][y + 1][x] == 0:
+            arr_choice.append(2)
 
-        if z - 1 >= 0:
-            if arr[z - 1][y][x] > 0:
-                arr_choice.remove(6)
-        else:
-            arr_choice.remove(6)
+        if z > 0 and arr[z - 1][y][x] == 0:
+            arr_choice.append(6)
 
-        if z + 1 < size:
-            if arr[z + 1][y][x] > 0:
-                arr_choice.remove(5)
-        else:
-            arr_choice.remove(5)
+        if z < size - 1 and arr[z + 1][y][x] == 0:
+            arr_choice.append(5)
 
         if not arr_choice:
             return -1
@@ -73,7 +55,8 @@ def recursive_backtracking(size):
         # 6 - back
 
         direction = possible_choice(z, y, x, size)
-        vertex = x + y*size + z*size**2
+        vertex = x + y*size + z * size**2
+
         if direction != -1:
             if direction == 1:
                 next_vertex = x + (y - 1)*size + z*size**2
@@ -258,6 +241,18 @@ class Maze:
     def show(self):
         print('show')
 
+        glPointSize(12)
+        glColor3f(1, 0, 0)
+        glBegin(GL_POINTS)
+        glVertex3fv(self.vertices[0])
+        glEnd()
+
+        glPointSize(12)
+        glColor3f(1, 0, 1)
+        glBegin(GL_POINTS)
+        glVertex3fv(self.vertices[-1])
+        glEnd()
+
         glColor3f(1, 1, 1)
         glPointSize(10)
         glBegin(GL_POINTS)
@@ -271,19 +266,6 @@ class Maze:
         for edge in self.edges:
             for vertex in edge:
                 glVertex3fv(self.vertices[vertex])
-
-        glEnd()
-
-        glPointSize(12)
-        glColor3f(1, 0, 0)
-        glBegin(GL_POINTS)
-        glVertex3fv(self.vertices[0])
-        glEnd()
-
-        glPointSize(12)
-        glColor3f(1, 0, 1)
-        glBegin(GL_POINTS)
-        glVertex3fv(self.vertices[-1])
         glEnd()
 
 

@@ -17,14 +17,13 @@ class MainWindow(QWidget, Ui_Form):
         self.btn_down.clicked.connect(self.on_click_down)
         self.ch_box_fog_enable.toggled.connect(lambda: self.on_click_enable_fog(self.ch_box_fog_enable))
 
-
     def on_click_create(self):
         current_size = self.le_vertex_count.text()
         print(current_size)
 
         try:
             size = int(current_size)
-            if 1 < size < 15:
+            if 1 < size < 10:
                 self.openGLWidget.set_size(size)
         except Exception:
             pass
@@ -58,7 +57,7 @@ class MainWindow(QWidget, Ui_Form):
             self.openGLWidget.rotate(0, 5)
         if event.key() == QtCore.Qt.Key_A:
             self.openGLWidget.rotate(0, -5)
-        if event.key() == QtCore.Qt.Key_R:
+        if event.key() == QtCore.Qt.Key_Return:
             current_size = self.le_vertex_count.text()
             print(current_size)
             self.openGLWidget.set_size(int(current_size))

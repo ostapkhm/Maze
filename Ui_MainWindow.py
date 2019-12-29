@@ -94,7 +94,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label_vertex_count.setText(_translate("Form", "Vertex number:\n"
-            " 1<n<15"))
+            " 1<n<10"))
         self.btn_create.setText(_translate("Form", "Create"))
         self.btn_left.setText(_translate("Form", "Left"))
         self.btn_right.setText(_translate("Form", "Right"))
