@@ -212,6 +212,39 @@ def create_binary(n):
     return arr
 
 
+def kruskul_maze(n):
+    graph = [[0] * (n**3) for i in range(0, n**3)]
+    possible_edges = []
+
+    for g in range(0, n):
+        for i in range(0, n):
+            for j in range(0, n):
+                if j < n - 1:
+                    possible_edges.append((j + i * n + g * n**2, j + 1 + i * n + g * n**2))
+                if i < n - 1:
+                    possible_edges.append((j + i * n + g * n**2, j + (i + 1) * n + g * n**2))
+                if g < n - 1:
+                    possible_edges.append((j + i * n + g * n**2, j + i * n + (g+1) * n**2))
+
+    v_numbers = [i for i in range(0, n ** 3)]
+
+    while len(possible_edges) != 0:
+        idx = randint(0, len(possible_edges) - 1)
+        edge = possible_edges.pop(idx)
+
+        start = edge[0]
+        end = edge[1]
+
+        if v_numbers[start] != v_numbers[end]:
+            digit = v_numbers[end]
+            for i in range(0, len(v_numbers)):
+                if v_numbers[i] == digit:
+                    v_numbers[i] = v_numbers[start]
+
+            graph[start][end] = 1
+    return graph
+
+
 class Maze:
     def __init__(self, state, n):
         self.edges = self.gen_edges(state)
@@ -260,7 +293,6 @@ class Maze:
             glVertex3fv(vertex)
         glEnd()
 
-
         glLineWidth(2)
         glBegin(GL_LINES)
         for edge in self.edges:
@@ -270,4 +302,4 @@ class Maze:
 
 
 def generate_maze(n) -> Maze:
-    return Maze(recursive_backtracking(n), n)
+    return Maze(kruskul_maze(n), n)
