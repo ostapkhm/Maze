@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QWidget
 
 from PyQt5 import QtCore
 from Ui_MainWindow import Ui_Form
+from Maze import TERNARY_TREE, KRUSKUL_ALGORITHM, RECURSIVE_BACKTRACKING
 
 
 class MainWindow(QWidget, Ui_Form):
@@ -16,6 +17,7 @@ class MainWindow(QWidget, Ui_Form):
         self.btn_up.clicked.connect(self.on_click_up)
         self.btn_down.clicked.connect(self.on_click_down)
         self.ch_box_fog_enable.toggled.connect(lambda: self.on_click_enable_fog(self.ch_box_fog_enable))
+        self.le_vertex_count.textChanged.connect(self.on_txt_changed)
 
     def on_click_create(self):
         current_size = self.le_vertex_count.text()
@@ -23,8 +25,14 @@ class MainWindow(QWidget, Ui_Form):
 
         try:
             size = int(current_size)
-            if 1 < size < 10:
-                self.openGLWidget.set_size(size)
+            if 1 < size <= 10:
+                if self.radioButton.isChecked():
+                    self.openGLWidget.create_maze(size, TERNARY_TREE)
+                elif self.radioButton_2.isChecked():
+                    self.openGLWidget.create_maze(size, RECURSIVE_BACKTRACKING)
+                elif self.radioButton_3.isChecked():
+                    self.openGLWidget.create_maze(size, KRUSKUL_ALGORITHM)
+
         except Exception:
             pass
 
@@ -58,9 +66,7 @@ class MainWindow(QWidget, Ui_Form):
         if event.key() == QtCore.Qt.Key_A:
             self.openGLWidget.rotate(0, -5)
         if event.key() == QtCore.Qt.Key_Return:
-            current_size = self.le_vertex_count.text()
-            print(current_size)
-            self.openGLWidget.set_size(int(current_size))
+            self.on_click_create()
 
     def on_click_enable_fog(self, b):
         if b.isChecked():
@@ -69,5 +75,19 @@ class MainWindow(QWidget, Ui_Form):
         else:
             print('disable')
             self.openGLWidget.set_fog(0)
+
+    def on_txt_changed(self):
+        txt = self.le_vertex_count.text()
+
+        try:
+            value = int(txt)
+            if 1 < value <= 10:
+                self.le_vertex_count.setStyleSheet("color: rgb(0, 0, 0);")
+            else:
+                self.le_vertex_count.setStyleSheet("color: rgb(255, 0, 0);")
+
+        except ValueError:
+            self.le_vertex_count.setStyleSheet("color: rgb(255, 0, 0);")
+
 
 

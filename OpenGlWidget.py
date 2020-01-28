@@ -15,8 +15,8 @@ class OpenGLWidget(QOpenGLWidget):
         self.angle_y = 0
         self.angle_x = 0
 
-        self.size = 2
-        self.maze = generate_maze(self.size)
+        # self.size = 2
+        self.maze = None
 
         self.fog_start = 5
         self.fog_end = 20  
@@ -44,7 +44,8 @@ class OpenGLWidget(QOpenGLWidget):
         glRotatef(self.angle_x, 1, 0, 0)
 
         # self.axis()
-        self.maze.show()
+        if self.maze is not None:
+            self.maze.show()
         glPopMatrix()
 
     # manipulation ------------------------------------
@@ -67,11 +68,11 @@ class OpenGLWidget(QOpenGLWidget):
         glFogf(GL_FOG_END, self.fog_end)
         self.update()
 
-    def set_size(self, size):
+    def create_maze(self, size, algorithm):
         print('set_size')
         self.makeCurrent()
         self.size = size
-        self.maze = generate_maze(self.size)
+        self.maze = generate_maze(self.size, algorithm)
         # self.fog_start = (size-1)/tan(pi/8)
         # self.fog_end = self.fog_start + 2 * (size-1)
         self.fog_start = self.distance - (self.size - 1)

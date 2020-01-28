@@ -3,10 +3,11 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import sys
 
-# генерирует лабиринт размером n и возвращает массив
+sys.setrecursionlimit(6000)
 
-x = 6000
-sys.setrecursionlimit(x)
+TERNARY_TREE = 0
+RECURSIVE_BACKTRACKING = 1
+KRUSKUL_ALGORITHM = 2
 
 
 def recursive_backtracking(size):
@@ -301,5 +302,13 @@ class Maze:
         glEnd()
 
 
-def generate_maze(n) -> Maze:
-    return Maze(kruskul_maze(n), n)
+def generate_maze(n, algorithm) -> Maze:
+    algorithm_func = None
+    if algorithm == TERNARY_TREE:
+        algorithm_func = create_binary
+    elif algorithm == RECURSIVE_BACKTRACKING:
+        algorithm_func = recursive_backtracking
+    elif algorithm == KRUSKUL_ALGORITHM:
+        algorithm_func = kruskul_maze
+
+    return Maze(algorithm_func(n), n)
