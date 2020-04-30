@@ -13,7 +13,7 @@ from OpenGlWidget import OpenGLWidget
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        Form.setObjectName("Form")
+        Form.setObjectName("Maze")
         Form.resize(1188, 861)
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setContentsMargins(0, 0, 5, 0)
@@ -44,6 +44,7 @@ class Ui_Form(object):
         self.le_vertex_count.setFont(font)
         self.le_vertex_count.setMaxLength(2)
         self.le_vertex_count.setObjectName("le_vertex_count")
+
         self.btn_create = QtWidgets.QPushButton(self.groupBox)
         self.btn_create.setGeometry(QtCore.QRect(10, 110, 161, 20))
         self.btn_create.setObjectName("btn_create")
@@ -74,33 +75,40 @@ class Ui_Form(object):
         font.setPointSize(12)
         self.ch_box_fog_enable.setFont(font)
         self.ch_box_fog_enable.setObjectName("ch_box_fog_enable")
+
         self.groupBox_2 = QtWidgets.QGroupBox(self.groupBox)
         self.groupBox_2.setGeometry(QtCore.QRect(10, 350, 161, 121))
+
         font = QtGui.QFont()
         font.setPointSize(12)
         self.groupBox_2.setFont(font)
         self.groupBox_2.setObjectName("groupBox_2")
+
         self.verticalLayout = QtWidgets.QVBoxLayout(self.groupBox_2)
         self.verticalLayout.setObjectName("verticalLayout")
+
         self.radioButton = QtWidgets.QRadioButton(self.groupBox_2)
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(9)
         self.radioButton.setFont(font)
         self.radioButton.setChecked(True)
         self.radioButton.setObjectName("radioButton")
         self.verticalLayout.addWidget(self.radioButton)
+
         self.radioButton_2 = QtWidgets.QRadioButton(self.groupBox_2)
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(9)
         self.radioButton_2.setFont(font)
         self.radioButton_2.setObjectName("radioButton_2")
         self.verticalLayout.addWidget(self.radioButton_2)
+
         self.radioButton_3 = QtWidgets.QRadioButton(self.groupBox_2)
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(9)
         self.radioButton_3.setFont(font)
         self.radioButton_3.setObjectName("radioButton_3")
         self.verticalLayout.addWidget(self.radioButton_3)
+
         self.horizontalLayout.addWidget(self.groupBox)
 
         self.retranslateUi(Form)
@@ -108,7 +116,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Maze"))
         self.label_vertex_count.setText(_translate("Form", "Vertex number:\n 1<n<=10"))
         self.btn_create.setText(_translate("Form", "Create"))
         self.btn_left.setText(_translate("Form", "Left"))

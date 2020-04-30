@@ -15,7 +15,6 @@ class OpenGLWidget(QOpenGLWidget):
         self.angle_y = 0
         self.angle_x = 0
 
-        # self.size = 2
         self.maze = None
 
         self.fog_start = 5
@@ -93,7 +92,6 @@ class OpenGLWidget(QOpenGLWidget):
         else:
             glDisable(GL_FOG)
         self.update()
-
 
     # draw --------------------------------------------
     def axis(self):
